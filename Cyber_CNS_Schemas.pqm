@@ -1,0 +1,1648 @@
+﻿let
+    Cyber_CNS.Schemas.Reference.Generic = type [
+        id = text,
+        name = text
+    ],
+
+     Cyber_CNS.Schemas.Reference.SimpleRef = type [
+        id = text
+     ],
+
+    Cyber_CNS.Schemas.Reference.Rule = type [
+        sectionId = text,
+        alertId = text,
+        eventId = text
+    ],
+
+    Cyber_CNS.Schemas.Alert = type table [
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        name = text,
+        description = text,
+        status = text,
+        companyRef = Cyber_CNS.Schemas.Reference.Generic,
+        assetRef = Cyber_CNS.Schemas.Reference.Generic,
+        attributes = list
+    ],
+
+    Cyber_CNS.Schemas.IntegrationMap = type [
+        ticketId = text,
+        integrationName = text,
+        ticketStatus = logical,
+        integrationId = text
+    ],
+
+    Cyber_CNS.Schemas.EventHistory = type [
+        event_time = datetime,
+        description = text
+    ],
+
+    Cyber_CNS.Schemas.Event = type table [
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        name = text,
+        description = text,
+        status = text,
+        notificationBody = text,
+        integrationMap = Cyber_CNS.Schemas.IntegrationMap,
+        companyRef = Cyber_CNS.Schemas.Reference.Generic,
+        assetRef = Cyber_CNS.Schemas.Reference.Generic,
+        ruleReference = Cyber_CNS.Schemas.Reference.Rule,
+        eventHistory = { Cyber_CNS.Schemas.EventHistory }
+    ],
+
+    Cyber_CNS.Schemas.IdentityProvider.Config.Schema = type [
+        #"type" = text
+    ],
+
+    Cyber_CNS.Schemas.IdentityProvider.Config = type [
+        name = text,
+        key = text,
+        description = text,
+        required = logical,
+        display = logical,
+        schema = Cyber_CNS.Schemas.IdentityProvider.Config.Schema
+    ],
+
+    Cyber_CNS.Schemas.IdentityProvider.Parameters = type [
+        alias = text,
+        providerId = text
+    ],
+
+    Cyber_CNS.Schemas.IdentityProvider = type table [
+        name = text,
+        image = text,
+        config = { Cyber_CNS.Schemas.IdentityProvider.Config },
+        parameters = Cyber_CNS.Schemas.IdentityProvider.Parameters,
+        redirect_uri = text
+    ],
+
+    //Cyber_CNS.Schemas.IdentityProvider = type { Cyber_CNS.Schemas.IdentityProvider.Record },
+
+    Cyber_CNS.Schemas.User.Attributes = type [
+        terms_and_conditions = { text },
+        includes = { text },
+        excludes = { text }
+    ],
+
+    Cyber_CNS.Schemas.User.Access = type [
+        manageGroupMembership = logical,
+        view = logical,
+        mapRoles = logical,
+        impersonate = logical,
+        manage = logical
+    ],
+
+    Cyber_CNS.Schemas.User.Role.RealmMapping = type [
+        id = text,
+        name = text,
+        description = text,
+        composite = logical,
+        clientRole = logical,
+        containerId = text
+    ],
+
+    Cyber_CNS.Schemas.User.Roles = type [
+        realmMappings = { Cyber_CNS.Schemas.User.Role.RealmMapping }
+    ],
+
+    Cyber_CNS.Schemas.User = type table [
+        id = text,
+        createdTimestamp = number,                          //TODO: Convert this from timestamp to datetime
+        username = text,
+        enabled = logical,
+        totp = logical,
+        emailVerified = logical,
+        firstName = text,
+        lastName = text,
+        email = text,
+        attributes = Cyber_CNS.Schemas.User.Attributes,
+        disableableCredentialTypes = list,                  //TODO: Need additional definition
+        requiredActions = list,                             //TODO: Need additional definition
+        notBefore = number,
+        access = Cyber_CNS.Schemas.User.Access,
+        roles = Cyber_CNS.Schemas.User.Roles
+    ],
+
+    Cyber_CNS.Schemas.Role = type table [
+        id = text,
+        name = text,
+        description = text,
+        composite = logical,
+        clientRole = logical,
+        containerId = text
+    ],
+
+    Cyber_CNS.Schemas.APIClient = type text,                //TODO: Need additional definition
+
+    Cyber_CNS.Schemas.Reference.CustomReportBuilderRef = type [
+        id = text
+    ],
+
+    Cyber_CNS.Schemas.CustomGeneratedReport = type table [
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        companyRef = Cyber_CNS.Schemas.Reference.Generic,
+        reportStatus = text,
+        reportTitle = text,
+        description = text,
+        reportPath = text,
+        reportDocPath = text,
+        siteid = list,
+        reason = text,
+        customreportbuilderRef = Cyber_CNS.Schemas.Reference.CustomReportBuilderRef
+    ],
+
+    Cyber_CNS.Schemas.CustomReportBuilder = type table [
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        customReportName = text,
+        template = text
+    ],
+
+    Cyber_CNS.Schemas.AD.Audit.MembersList = type [
+        businessPhones = list,
+        displayName = text,
+        givenName = text,
+        id = text,
+        mail = text,
+        preferredLanguage = text,
+        surname = text,
+        userPrincipalName = text
+    ],
+
+    Cyber_CNS.Schemas.AD.Audit = type table [
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        AccountDomain = text,
+        AccountExpires = text,
+        AccountName = text,
+        AllowedToDelegateTo = text,
+        AppCorrelationID = text,
+        AttributeLDAPDisplayName = text,
+        AttributeSyntaxOID = text,
+        AttributeValue = text,
+        CertIssuerName = text,
+        CertSerialNumber = text,
+        CertThumbprint = text,
+        Channel = text,
+        ClientAddress = text,
+        ClientName = text,
+        DSName = text,
+        DSType = text,
+        Description = text,
+        DisplayName = text,
+        DnsHostName = text,
+        EventDatetime = datetime,
+        EventID = text,
+        HomeDirectory = text,
+        HomePath = text,
+        IpAddress = text,
+        IpPort = text,
+        LogonGuid = text,
+        LogonHours = text,
+        LogonID = text,
+        LogonType = text,
+        MemberName = text,
+        MemberSid = text,
+        NewUacValue = text,
+        ObjectClass = text,
+        ObjectDN = text,
+        ObjectGUID = text,
+        OldUacValue = text,
+        OpCorrelationID = text,
+        OperationType = text,
+        PackageName = text,
+        PasswordLastSet = text,
+        PreAuthType = text,
+        PrimaryGroupId = text,
+        PrivilegeList = text,
+        ProcessId = text,
+        ProcessName = text,
+        ProfilePath = text,
+        SamAccountName = text,
+        ScriptPath = text,
+        ServiceName = text,
+        ServicePrincipalNames = text,
+        ServiceSid = text,
+        SessionName = text,
+        SidHistory = text,
+        Status = text,
+        SubjectDomainName = text,
+        SubjectLogonId = text,
+        SubjectUserName = text,
+        SubjectUserSid = text,
+        TargetDomainName = text,
+        TargetInfo = text,
+        TargetLogonGuid = text,
+        TargetLogonId = text,
+        TargetServerName = text,
+        TargetSid = text,
+        TargetUserName = text,
+        TargetUserSid = text,
+        TicketEncryptionType = text,
+        TicketOptions = text,
+        UserAccountControl = text,
+        UserParameters = text,
+        UserPrincipalName = text,
+        UserWorkstations = text,
+        Workstation = text,
+        accountEnabled = logical,
+        browser = text,
+        city = text,
+        countryOrRegion = text,
+        createdDateTime = datetime,
+        deviceId = text,
+        deviceName = text,
+        groupdisplayName = text,
+        ipAddress = text,
+        latitude = number,
+        longitude = number,
+        mail = text,
+        name = text,
+        operatingSystem = text,
+        riskDetail = text,
+        riskLevelDuringSignIn = text,
+        riskState = text,
+        securityEnabled = logical,
+        source = text,
+        state = text,
+        uniqueGroupMemberName = text,
+        uniqueSignInTime = text,
+        userDisplayName = text,
+        members = { Cyber_CNS.Schemas.AD.Audit.MembersList },
+        companyRef = Cyber_CNS.Schemas.Reference.Generic,
+        agentRef =  Cyber_CNS.Schemas.Reference.Generic
+    ],
+
+    Cyber_CNS.Schemas.AD.Computer = type table [
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        name = text,
+        host_name = text,
+        dnsHostName = text,
+        osname = text,
+        OperatingSystemVersion = text,
+        distinguishedName = text,
+        samAccountName = text,
+        enabled = logical,
+        lastLogonTimestamp = datetime,
+        lastLogonDate = datetime,
+        whenCreated = datetime,
+        whenModified = datetime,
+        lockedOut = logical,
+        passwordExpired = logical,
+        passwordLastSet = datetime,
+        passwordNeverExpires = logical,
+        passwordNotRequired = logical,
+        domain = text,
+        linkedOus = list,
+        object_type = text,
+        companyRef = Cyber_CNS.Schemas.Reference.Generic,
+        agentRef = Cyber_CNS.Schemas.Reference.Generic,
+        assetRef = Cyber_CNS.Schemas.Reference.Generic,
+        assetcredentialsRef = Cyber_CNS.Schemas.Reference.SimpleRef
+    ],
+
+    Cyber_CNS.Schemas.AD.GPO = type table [
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        displayName = text,
+        domain = text,
+        gpoModifiedTime = datetime,
+        linkedTo = list,
+        gpoCreatedTime = datetime,
+        guid = text,
+        gpoStatus = text,
+        path = text,
+        name = text,
+        linkedOus = list,
+        object_type = text,
+        companyRef = Cyber_CNS.Schemas.Reference.Generic,
+        agentRef = Cyber_CNS.Schemas.Reference.Generic,
+        assetRef =  Cyber_CNS.Schemas.Reference.Generic,
+        assetcredentialsRef =  Cyber_CNS.Schemas.Reference.SimpleRef
+    ],
+
+    Cyber_CNS.Schemas.AD.Group = type table [
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        canonicalName = text,
+        managedBy = text,
+        samAccountName = text,
+        domain = text,
+        category = text,
+        groupCreated = datetime,
+        name = text,
+        commonName = text,
+        distinguishedName = text,
+        scope = text,
+        isCriticalSystemObj = logical,
+        empty = logical,
+        members = list,
+        linkedOus = list,
+        object_type = text,
+        companyRef = Cyber_CNS.Schemas.Reference.Generic,
+        agentRef = Cyber_CNS.Schemas.Reference.Generic,
+        assetRef = Cyber_CNS.Schemas.Reference.Generic,
+        assetcredentialsRef = Cyber_CNS.Schemas.Reference.SimpleRef
+    ],
+
+    Cyber_CNS.Schemas.AD.LinkedGPO = type [
+        name = text,
+        enabled = logical,
+        enforced = logical        
+    ],
+
+    Cyber_CNS.Schemas.AD.OrgUnit = type table [
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        managedBy = text,
+        domain = text,
+        ouName = text,
+        empty = logical,
+        ouCreated = datetime,
+        ouModified = datetime,
+        distinguishedName = text,
+        guid = text,
+        gpLinks = list,
+        linkedGPO = { Cyber_CNS.Schemas.AD.LinkedGPO },
+        linkedComputers = list,
+        linkedGroups = list,
+        linkedUsers = list,
+        object_type = text,
+        companyRef = Cyber_CNS.Schemas.Reference.Generic,
+        agentRef = Cyber_CNS.Schemas.Reference.Generic,
+        assetRef = Cyber_CNS.Schemas.Reference.Generic,
+        assetcredentialsRef = Cyber_CNS.Schemas.Reference.SimpleRef
+    ],
+
+    Cyber_CNS.Schemas.AD.User = type table [
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        lockedOut = logical,
+        emailAddress = text,
+        department = text,
+        badLogonCount = number,
+        passwordNeverExpires = logical,
+        passwordExpired = logical,
+        passwordNotRequired = logical,
+        cannotChangePassword = logical,
+        passwordLastSet = datetime,
+        name = text,
+        passwordExpireDate = datetime,
+        whenCreated = datetime,
+        whenModified = datetime,
+        samAccountName = text,
+        linkedOus = list,
+        sid = text,
+        enabled = logical,
+        logonCount = number,
+        domain = text,
+        accountExpireDate = datetime,
+        lastLogonTimestamp = datetime,
+        lastLogonDate = datetime,
+        memberOf = list,
+        office = text,
+        displayName = text,
+        accountLockoutTime = datetime,
+        lastbadPwdAttempt = datetime,
+        distinguishedName = text,
+        domainAdmin = logical,
+        enterpriseAdmin = logical,
+        buildInAdmin = logical,
+        homeDrive = text,
+        homeDirectory = text,
+        object_type = text,
+        companyRef = Cyber_CNS.Schemas.Reference.Generic,
+        agentRef = Cyber_CNS.Schemas.Reference.Generic,
+        assetRef = Cyber_CNS.Schemas.Reference.Generic,
+        assetcredentialsRef = Cyber_CNS.Schemas.Reference.SimpleRef
+    ],
+
+    Cyber_CNS.Schemas.Agent = type table [
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        name = text,
+        version = text,
+        host_name = text,
+        ostype = number,
+        agent_type = number,
+        ip = text,
+        tags = list,
+        lastscannedtime = datetime,
+        companyRef = Cyber_CNS.Schemas.Reference.Generic
+    ],
+
+    Cyber_CNS.Schemas.Service = type [
+        serviceName = text,
+        applicationName = text
+    ],
+
+    Cyber_CNS.Schemas.ApplicationBaseline = type table [
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        name = text,
+        #"type" = text,
+        os_type = text,
+        osname = text,
+        mandatoryService = { Cyber_CNS.Schemas.Service },
+        deniedService = { Cyber_CNS.Schemas.Service },
+        mandatoryApplications = { text },
+        deniedApplications = { text },
+        companyRef = Cyber_CNS.Schemas.Reference.Generic,
+        agentRef = Cyber_CNS.Schemas.Reference.Generic,
+        assetRef = Cyber_CNS.Schemas.Reference.Generic,
+        isLightWeightMandatory = logical,
+        ignoreTags = list,
+        includeTags = list
+    ],
+
+    Cyber_CNS.Schemas.Host = type [
+        architecture = text,
+        cpu_core = number,
+        discovered = date,
+        host_name = text,
+        icon = text,
+        status = logical,
+        importance = number,
+        uniqueId = text,
+        serial_number = text,
+        ip = text,
+        jid = text,
+        mac = text,
+        manufacturer = text,
+        physical_memory = text,
+        failed_logins = number,
+        uptime = text,
+        asset_type = text
+    ],
+
+    Cyber_CNS.Schemas.SNMP = type [
+        description = text,
+        deviceLocation = text,
+        serial = text,
+        sysContact = text,
+        sysName = text,
+        sysObjectId = text,
+        communityString = text,
+        snmpVersion = text
+    ],
+
+    Cyber_CNS.Schemas.ZeroDay = type [
+        name = text,
+        vulnerable = logical
+    ],
+
+    Cyber_CNS.Schemas.Security.Evidence = type [
+        antiVirus = text,
+        localFirewall = text,
+        insecureListeningPorts = text,
+        failedLogin = text,
+        networkVulnerabilities = text,
+        systemAging = text,
+        supportedOS = text
+    ],
+
+    Cyber_CNS.Schemas.Security.ReportCard = type [
+        antiVirus = number,
+        localFirewall = number,
+        insecureListeningPorts = number,
+        failedLogin = number,
+        networkVulnerabilities = number,
+        systemAging = number,
+        supportedOS = number,
+        evidence = Cyber_CNS.Schemas.Security.Evidence
+    ],
+
+    Cyber_CNS.Schemas.Compliance.Evidence = type [
+        LLMNR = text,
+        NTLMVnumber = text,
+        NBTNS = text,
+        SMBV1Server = text,
+        SMBV1Client = text,
+        SMBSigning = text
+    ],
+
+    Cyber_CNS.Schemas.Compliance.ReportCard = type [
+        LLMNR = number,
+        NTLMVnumber = number,
+        NBTNS = number,
+        SMBV1Server = number,
+        SMBV1Client = number,
+        SMBSigning = number,
+        evidence = Cyber_CNS.Schemas.Compliance.Evidence
+    ],
+
+    Cyber_CNS.Schemas.Asset.OS = type [
+        build = text,
+        product_type = text,
+        codename = text,
+        full_name = text,
+        kernel = text,
+        name = text,
+        platform = text,
+        version = text,
+        install_date = number,
+        patches = list
+    ],
+    
+    Cyber_CNS.Schemas.VulnerabilityStats = type [
+        risk_score = number,
+        base_score = number,
+        count_of_critical_network_vuls = number,
+        count_of_high_network_vuls = number,
+        count_of_medium_network_vuls = number,
+        count_of_low_network_vuls = number,
+        count_of_info_network_vuls = number,
+        count_of_critical_vuls = number,
+        count_of_high_vuls = number,
+        count_of_medium_vuls = number,
+        count_of_low_vuls = number,
+        count_of_installed_softwares = number,
+        count_of_critical_installed_softwares = number,
+        count_of_high_installed_softwares = number,
+        count_of_medium_installed_softwares = number,
+        count_of_low_installed_softwares = number,
+        count_of_open_ports = number,
+        ssl_grade = text,
+        asset_score = number,
+        count_of_critical_network_vuls_new = number,
+        count_of_high_network_vuls_new = number,
+        count_of_medium_network_vuls_new = number,
+        count_of_low_network_vuls_new = number,
+        count_of_info_network_vuls_new = number,
+        count_of_critical_vuls_new = number,
+        count_of_high_vuls_new = number,
+        count_of_medium_vuls_new = number,
+        count_of_low_vuls_new = number
+    ],
+
+    Cyber_CNS.Schemas.TicketDetails = type [
+        ticketId = text,
+        integrationName = text,
+        integrationId = text
+    ],
+
+    Cyber_CNS.Schemas.AgentRef = type [
+        id = text,
+        name = text,
+        agent_type = number
+    ],
+
+    Cyber_CNS.Schemas.DiscoverySettingsRef = type [
+        id = text,
+        name = text,
+        tags = list
+    ],
+
+    Cyber_CNS.Schemas.Asset = type table [
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        ip = text,
+        host = Cyber_CNS.Schemas.Host,
+        visibleName = text,
+        isExcluded = logical,
+        snmp = Cyber_CNS.Schemas.SNMP,
+        zerodayVuls = { Cyber_CNS.Schemas.ZeroDay },
+        security_reportcard = Cyber_CNS.Schemas.Security.ReportCard,
+        compliance_reportcard = Cyber_CNS.Schemas.Compliance.ReportCard,
+        name = text,
+        os = Cyber_CNS.Schemas.Asset.OS,
+        credid = text,
+        isdeprecated = logical,
+        deprecatedtime = datetime,
+        snmp_credid = text,
+        discoveredProtocols = list,
+        vul_stats = Cyber_CNS.Schemas.VulnerabilityStats,
+        ticket_details = Cyber_CNS.Schemas.TicketDetails,
+        lastvul_scannedtime = datetime,
+        lastdiscoveredtime = datetime,
+        tags = list,
+        companyRef = Cyber_CNS.Schemas.Reference.Generic,
+        agentRef = Cyber_CNS.Schemas.AgentRef,
+        discoverysettingsRef = Cyber_CNS.Schemas.DiscoverySettingsRef
+    ],
+
+    Cyber_CNS.Schemas.Asset.BestPractice = type table [
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        name = text,
+        practice_type = text,
+        status = number,
+        companyRef = Cyber_CNS.Schemas.Reference.Generic,
+        agentRef = Cyber_CNS.Schemas.Reference.Generic,
+        assetRef = Cyber_CNS.Schemas.Reference.Generic
+    ],
+
+    Cyber_CNS.Schemas.Asset.Credential = type table [
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        cred_type = number,
+        cred_port = number,
+        cred_protocol = text,
+        username = text,
+        domain = text,
+        hostname = text,
+        assetid = text,
+        name = text,
+        companyRef = Cyber_CNS.Schemas.Reference.Generic,
+        agentRef = Cyber_CNS.Schemas.Reference.Generic
+    ],
+
+    Cyber_CNS.Schemas.Asset.FirewallPolicy = type table [
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        policytype = text,
+        policystatus = number,
+        last_updated = number,
+        companyRef = Cyber_CNS.Schemas.Reference.Generic,
+        agentRef = Cyber_CNS.Schemas.Reference.Generic,
+        assetRef = Cyber_CNS.Schemas.Reference.Generic
+    ],
+
+    Cyber_CNS.Schemas.Asset.RunningProcess = type table [
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        port = number,
+        address = text,
+        protocol = number,
+        name = text,
+        path = text,
+        companyRef = Cyber_CNS.Schemas.Reference.Generic,
+        agentRef = Cyber_CNS.Schemas.Reference.Generic,
+        assetRef = Cyber_CNS.Schemas.Reference.Generic
+    ],
+
+    Cyber_CNS.Schemas.Asset.Service = type table [
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        name = text,
+        display_name = text,
+        service_status = text,
+        path = text,
+        companyRef = Cyber_CNS.Schemas.Reference.Generic,
+        agentRef = Cyber_CNS.Schemas.Reference.Generic,
+        assetRef = Cyber_CNS.Schemas.Reference.Generic
+    ],
+
+    Cyber_CNS.Schemas.Asset.Share = type table [
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        anonymous_access = text,
+        path = text,
+        companyRef = Cyber_CNS.Schemas.Reference.Generic,
+        agentRef = Cyber_CNS.Schemas.Reference.Generic,
+        assetRef = Cyber_CNS.Schemas.Reference.Generic
+    ],
+
+    Cyber_CNS.Schemas.TableData = type [
+        oid = text,
+        value = { text }
+    ],
+
+    Cyber_CNS.Schemas.SNMPTable = type table [
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        table_data = { Cyber_CNS.Schemas.TableData },
+        companyRef = Cyber_CNS.Schemas.Reference.Generic,
+        agentRef =Cyber_CNS.Schemas.Reference.Generic,
+        assetRef = Cyber_CNS.Schemas.Reference.Generic
+    ],
+
+    Cyber_CNS.Schemas.Asset.SystemInfo = type table [
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        bootDevice = text,
+        buildNumber = text,
+        buildType = text,
+        caption = text,
+        codeSet = text,
+        countryCode = text,
+        description = text,
+        installDate = text,
+        lastBootUpTime = text,
+        localDateTime = text,
+        locale = text,
+        manufacturer = text,
+        name = text,
+        organization = text,
+        osArchitecture = text,
+        registeredUser = text,
+        serialNumber = text,
+        Status = text,
+        systemDevice = text,
+        systemDirectory = text,
+        systemDrive = text,
+        version = text,
+        windowsDirectory = text,
+        currentTimezone = number,
+        freePhysicalMemory = number,
+        free_spaceInPagingFiles = number,
+        freeVirtualMemory = number,
+        maxNumberOfProcesses = number,
+        maxProcessMemorySize = number,
+        numberOfLicensedUsers = number,
+        numberOfProcesses = number,
+        numberOfUsers = number,
+        osType = number,
+        totalSwapSpaceSize = number,
+        totalVirtualMemorySize = number,
+        totalVisibleMemorySize = number,
+        assetRef = Cyber_CNS.Schemas.Reference.Generic,
+        companyRef = Cyber_CNS.Schemas.Reference.Generic,
+        agentRef = Cyber_CNS.Schemas.Reference.Generic
+    ],
+
+    Cyber_CNS.Schemas.Asset.TimeStat = type table [
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        vul_stats = Cyber_CNS.Schemas.VulnerabilityStats,
+        companyRef = Cyber_CNS.Schemas.Reference.Generic,
+        agentRef = Cyber_CNS.Schemas.Reference.Generic,
+        assetRef = Cyber_CNS.Schemas.Reference.Generic
+    ],
+
+    Cyber_CNS.Schemas.Asset.User = type table [
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        uid = number,
+        gid = number,
+        username = text,
+        description = text,
+        directory = text,
+        shell = text,
+        companyRef = Cyber_CNS.Schemas.Reference.Generic,
+        agentRef = Cyber_CNS.Schemas.Reference.Generic,
+        assetRef = Cyber_CNS.Schemas.Reference.Generic
+    ],
+
+    Cyber_CNS.Schemas.Company = type table [
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        name = text,
+        description = text,
+        customerInfo = record,
+        isMigrated = logical,
+        isAssessment = logical,
+        isDeleted = logical,
+        deletedTime = datetime,
+        source = number,
+        tags = list
+    ],
+    
+    Cyber_CNS.Schemas.Company.Stat = type table [ 
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        company_score = number,
+        asset_count = number,
+        company_score_assetAvg = number,
+        auth_critical = number,
+        auth_high = number,
+        auth_medium = number,
+        auth_low = number,
+        auth_total = number,
+        network_critical = number,
+        network_high = number,
+        network_medium = number,
+        network_low = number,
+        network_info = number,
+        network_total = number,
+        companyRef = Cyber_CNS.Schemas.Reference.Generic
+    ],
+
+    Cyber_CNS.Schemas.Company.Stat.TimeSeries = type table [ 
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        company_score = number,
+        asset_count = number,
+        company_score_assetAvg = number,
+        auth_critical = number,
+        auth_high = number,
+        auth_medium = number,
+        auth_low = number,
+        auth_total = number,
+        network_critical = number,
+        network_high = number,
+        network_medium = number,
+        network_low = number,
+        network_info = number,
+        network_total = number,
+        companyRef = Cyber_CNS.Schemas.Reference.Generic
+    ],
+
+
+    Cyber_CNS.Schemas.Benchmarks = type [
+        cis = list,
+        pci_dss = list,
+        tsc = list,
+        gdpr_IV = list,
+        gpg_13 = list,
+        hipaa = list,
+        nist_8numbernumber_53 = list,
+        cis_8_number = list,
+        nist_8numbernumber_171 = list,
+        iso_27numbernumber2 = list,
+        gpg13 = list
+    ],
+
+    Cyber_CNS.Schemas.Compliance = type table [ 
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        complaince_id = text,
+        benchmarks = Cyber_CNS.Schemas.Benchmarks,
+        iscompliant = logical,
+        companyRef = Cyber_CNS.Schemas.Reference.Generic,
+        agentRef = Cyber_CNS.Schemas.Reference.Generic,
+        assetRef = Cyber_CNS.Schemas.Reference.Generic
+    ],
+
+    Cyber_CNS.Schemas.Compliance.Check = type table [ 
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        filename = text,
+        isApplicable = logical,
+        companyRef = Cyber_CNS.Schemas.Reference.Generic,
+        agentRef = Cyber_CNS.Schemas.Reference.Generic,
+        assetRef = Cyber_CNS.Schemas.Reference.Generic
+    ],
+
+    Cyber_CNS.Schemas.CustomImportSetting = type table [ 
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        insecurePorts = list,
+        allowedPorts = list,
+        deniedPorts = list,
+        excludedPorts = list,
+        assetDeprecationDays = number,
+        companyRef = Cyber_CNS.Schemas.Reference.Generic
+    ],
+
+    Cyber_CNS.Schemas.Control = type [ 
+        key = text,
+        title = text,
+        condition = text,
+        normal = number,
+        risk = number,
+        complianceList = list,
+        compliance = text,
+        dropdown = logical
+    ],
+
+    Cyber_CNS.Schemas.Diagnostic = type table [ 
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        group = text,
+        totalRisk = number,
+        controls = { Cyber_CNS.Schemas.Control }
+    ],
+
+    Cyber_CNS.Schemas.DiscoverySetting = type table [ 
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        name = text,
+        ip_start = text,
+        ip_end = text,
+        subnet_mask = text,
+        tags = list,
+        discovery_type = text,
+        isExcluded = logical,
+        companyRef = Cyber_CNS.Schemas.Reference.Generic,
+        agentRef = Cyber_CNS.Schemas.Reference.Generic
+    ],
+
+    Cyber_CNS.Schemas.FSMORole = type table [ 
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        role = text,
+        domain = text,
+        companyRef = Cyber_CNS.Schemas.Reference.Generic,
+        agentRef = Cyber_CNS.Schemas.Reference.Generic,
+        assetRef = Cyber_CNS.Schemas.Reference.Generic
+    ],
+
+    Cyber_CNS.Schemas.InstalledProgram = type table [ 
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        arch = text,
+        full_name = text,
+        name = text,
+        path = text,
+        publisher = text,
+        install_source = text,
+        registery_key = text,
+        uninstall_string = text,
+        install_date = text,
+        identifying_number = text,
+        version = text,
+        cpe_vendor = text,
+        cpe_product = text,
+        critical_vuls_count = number,
+        high_vuls_count = number,
+        medium_vuls_count = number,
+        low_vuls_count = number,
+        vulcount = number,
+        companyRef = Cyber_CNS.Schemas.Reference.Generic,
+        agentRef = Cyber_CNS.Schemas.Reference.Generic,
+        assetRef = Cyber_CNS.Schemas.Reference.Generic
+    ],
+
+    Cyber_CNS.Schemas.Interface = type table [ 
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        interface = text,
+        name = text,
+        address = text,
+        mask = text,
+        broadcast = text,
+        mac = text,
+        linkspeed = text,
+        companyRef = Cyber_CNS.Schemas.Reference.Generic,
+        agentRef = Cyber_CNS.Schemas.Reference.Generic,
+        assetRef = Cyber_CNS.Schemas.Reference.Generic
+    ],
+
+    Cyber_CNS.Schemas.Reference.AssetRefExt = type [
+        id = text,
+        name = text,
+        ip = text
+    ],
+
+    Cyber_CNS.Schemas.JobStatus = type [ 
+        pingStatus = logical,
+        topPortsScan = logical,
+        vulcount = number,
+        risk_score = number,
+        base_score = number,
+        noauth_vulscount = number,
+        status = logical,
+        reason = text,
+        discoveredProtocol = text,
+        ipaddress = text,
+        assetRef = Cyber_CNS.Schemas.Reference.AssetRefExt
+    ],
+
+    Cyber_CNS.Schemas.Inventory_Status = type [ 
+        reason = text,
+        host = text,
+        status = logical
+    ],
+
+    Cyber_CNS.Schemas.Job_Message = type [ 
+        assetInventoryStatus = Cyber_CNS.Schemas.Inventory_Status,
+        assetJobStatus = { Cyber_CNS.Schemas.JobStatus },
+        assetSnmpJobStatus = { Cyber_CNS.Schemas.JobStatus }
+    ],
+
+    Cyber_CNS.Schemas.Job_Data = type [ 
+        status_message = text,
+        job_status = number,
+        message = text,
+        job_message = Cyber_CNS.Schemas.Job_Message,
+        assetdescription = text,
+        task = text,
+        initiated_by = text
+    ],
+
+    Cyber_CNS.Schemas.Job = type table [ 
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        job_data = Cyber_CNS.Schemas.Job_Data,
+        task_id = text,
+        companyRef = Cyber_CNS.Schemas.Reference.Generic,
+        agentRef = Cyber_CNS.Schemas.Reference.Generic,
+        assetRef = Cyber_CNS.Schemas.Reference.Generic
+    ],
+
+    Cyber_CNS.Schemas.Log4JInfo.EnvData = type [
+        pid = number,
+        key = text,
+        value = text
+    ],
+
+    Cyber_CNS.Schemas.Log4JInfo = type table [ 
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        directory = text,
+        filename = text,
+        cmdline = text,
+        version = text,
+        isVulnerable = text,
+        msgLookup = logical,
+        envdata = { Cyber_CNS.Schemas.Log4JInfo.EnvData },
+        companyRef = Cyber_CNS.Schemas.Reference.Generic,
+        agentRef = Cyber_CNS.Schemas.Reference.Generic,
+        assetRef = Cyber_CNS.Schemas.Reference.Generic
+    ],
+
+    Cyber_CNS.Schemas.Notification.IntegrationRule = type [
+        integrationId = text,
+        integrationName = text,
+        board = text,
+        #"type" = text,
+        subtype = text,
+        item = text,
+        status = text,
+        status_close = text,
+        priority = text,
+        toEmail = text,
+        fromuser = text,
+        replyTo = text,
+        isHtml = logical,
+        location = text,
+        employee = text,
+        queues = text
+    ],
+
+    Cyber_CNS.Schemas.Notification.AlertRules.Alert = type [
+        ruleId = text,
+        eventId = { text }
+    ],
+
+    Cyber_CNS.Schemas.Notification.AlertRules.Section = type [
+        sectionId = text,
+        rules = { Cyber_CNS.Schemas.Notification.AlertRules.Alert }
+    ],
+
+    Cyber_CNS.Schemas.Notification.Rule = type table [ 
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        name = text,
+        integrationRule = { Cyber_CNS.Schemas.Notification.IntegrationRule },
+        alertRules = { Cyber_CNS.Schemas.Notification.AlertRules.Section },
+        companyRef = Cyber_CNS.Schemas.Reference.Generic
+    ],
+
+    Cyber_CNS.Schemas.Notification.Ticket = type table [ 
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        integrationName = text,
+        integrationId = text,
+        ticketStatus = text,
+        companyId = text,
+        ticketId = text,
+        subrule = text,
+        eventRef = Cyber_CNS.Schemas.Reference.Generic,
+        alertRef = Cyber_CNS.Schemas.Reference.Generic,
+        companyRef = Cyber_CNS.Schemas.Reference.Generic,
+        notificationrulesRef = Cyber_CNS.Schemas.Reference.Generic
+    ],
+
+    Cyber_CNS.Schemas.PasswordPolicy = type table [ 
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        complexityEnabled = logical,
+        distinguishedName = text,
+        lockoutDuration = text,
+        lockoutObservationWindow = text,
+        lockoutThreshold = text,
+        maxPasswordAge = number,
+        minPasswordAge = number,
+        minPasswordLength = number,
+        passwordHistoryCount = number,
+        reversibleEncryptionEnabled = logical,
+        domain = text,
+        object_type = text,
+        companyRef = Cyber_CNS.Schemas.Reference.Generic,
+        agentRef = Cyber_CNS.Schemas.Reference.Generic,
+        assetRef = Cyber_CNS.Schemas.Reference.Generic,
+        assetcredentialsRef = Cyber_CNS.Schemas.Reference.SimpleRef
+    ],
+
+    Cyber_CNS.Schemas.Patching.Response = type [
+        name = text,
+        msg = text,
+        status = logical
+    ],
+
+    Cyber_CNS.Schemas.Patching.Parameters = type [
+        // Undefined Object
+    ],
+
+    Cyber_CNS.Schemas.Patching.Status = type table [ 
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        product = text,
+        chocoName = text,
+        fromVersion = text,
+        toVersion = text,
+        integrationName = text,
+        integrationId = text,
+        ticketId = text,
+        ticketStatus = text,
+        patching_status = number,
+        patching_msg = text,
+        patching_response = { Cyber_CNS.Schemas.Patching.Response },
+        params = Cyber_CNS.Schemas.Patching.Parameters,
+        companyRef = Cyber_CNS.Schemas.Reference.Generic,
+        agentRef = Cyber_CNS.Schemas.Reference.Generic,
+        assetRef = Cyber_CNS.Schemas.Reference.Generic
+    ],
+
+    Cyber_CNS.Schemas.Port = type table [ 
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        port = number,
+        service = text,
+        version = text,
+        name = text,
+        path = text,
+        isSecure = logical,
+        vulCount = number,
+        companyRef = Cyber_CNS.Schemas.Reference.Generic,
+        agentRef = Cyber_CNS.Schemas.Reference.Generic,
+        assetRef = Cyber_CNS.Schemas.Reference.Generic
+    ],
+
+    Cyber_CNS.Schemas.RegistryMisconfiguration = type table [ 
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        #"type" = text,
+        name = text,
+        found = text,
+        expected = text,
+        ref = text,
+        hive = { text },
+        assetRef = Cyber_CNS.Schemas.Reference.Generic,
+        companyRef = Cyber_CNS.Schemas.Reference.Generic,
+        agentRef = Cyber_CNS.Schemas.Reference.Generic
+    ],
+
+    Cyber_CNS.Schemas.Remediation.Evidence = type [
+        path = text,
+        version = text,
+        productRef = text
+    ],
+
+    Cyber_CNS.Schemas.Remediation = type table [ 
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        fix = text,
+        product = text,
+        url = text,
+        critical_vuls_count = number,
+        high_vuls_count = number,
+        medium_vuls_count = number,
+        low_vuls_count = number,
+        vulcount = number,
+        chocoName = text,
+        remediatedAt = datetime,
+        remediation_type = text,
+        remediation_status = logical,
+        remediation_closer_reason = text,
+        snoozeTill = datetime,
+        snoozeReason = text,
+        activateReason = text,
+        snoozeDays = number,
+        evidence = Cyber_CNS.Schemas.Remediation.Evidence,
+        is_mandatory_application = logical,
+        is_denied_application = logical,
+        is_mandatory_service = logical,
+        is_denied_service = logical,
+        ticketId = text,
+        ticketupdated = logical,
+        companyRef = Cyber_CNS.Schemas.Reference.Generic,
+        agentRef = Cyber_CNS.Schemas.Reference.Generic,
+        assetRef = Cyber_CNS.Schemas.Reference.Generic,
+        ruleRef = Cyber_CNS.Schemas.Reference.Generic
+    ],
+
+    Cyber_CNS.Schemas.RemediationSuppression = type table [ 
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        product = text,
+        remediation_id = text,
+        remediation_type = text,
+        version = text,
+        remediationdays = number,
+        remediatedAt = datetime,
+        snoozeDays = number,
+        snoozeReason = text,
+        snoozeTill = datetime,
+        activateReason = text,
+        comments = text,
+        companyRef = Cyber_CNS.Schemas.Reference.Generic,
+        agentRef = Cyber_CNS.Schemas.Reference.Generic,
+        assetRef = Cyber_CNS.Schemas.Reference.Generic
+    ],
+    
+    Cyber_CNS.Schemas.Scheduler.Settings = type [
+        mins = list,
+        hour = list,
+        hours = list,
+        days = list,
+        week = list,
+        months = list,
+        weekdays = list
+    ],
+
+    Cyber_CNS.Schemas.Scheduler = type table [ 
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        name = text,
+        uniqueid = text,
+        agents = list,
+        company = list,
+        subvalue = list,
+        thirdvalue = list,
+        settings = Cyber_CNS.Schemas.Scheduler.Settings,
+        scheduler = text,
+        isGlobal = logical,
+        isActive = logical,
+        email = list,
+        companyRef = { Cyber_CNS.Schemas.Reference.Generic },
+        agentRef = { Cyber_CNS.Schemas.Reference.Generic }
+    ],
+
+    Cyber_CNS.Schemas.SecurityCompliance = type table [ 
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        name = text,
+        path = text,
+        data = number,
+        companyRef = Cyber_CNS.Schemas.Reference.Generic,
+        agentRef = Cyber_CNS.Schemas.Reference.Generic,
+        assetRef = Cyber_CNS.Schemas.Reference.Generic
+    ],
+
+    Cyber_CNS.Schemas.SMBSharePath = type table [ 
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        path = text,
+        permission = text,
+        companyRef = Cyber_CNS.Schemas.Reference.Generic,
+        agentRef = Cyber_CNS.Schemas.Reference.Generic,
+        assetRef = Cyber_CNS.Schemas.Reference.Generic
+    ],
+
+    Cyber_CNS.Schemas.SNMPv2Credential = type table [ 
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        name = text,
+        snmpVersion = text,
+        companyRef = Cyber_CNS.Schemas.Reference.Generic,
+        agentRef = Cyber_CNS.Schemas.Reference.Generic
+    ],
+
+    Cyber_CNS.Schemas.SNMPv3Credential = type table [ 
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        authProtocol = text,
+        securityName = text,
+        privacyProtocol = text,
+        assetid = text,
+        name = text,
+        companyRef = Cyber_CNS.Schemas.Reference.Generic,
+        agentRef = Cyber_CNS.Schemas.Reference.Generic
+    ],
+
+    Cyber_CNS.Schemas.Reference.AssetRefExt2 = type [
+        id = text,
+        ip = text,
+        name = text
+    ],
+
+    Cyber_CNS.Schemas.SSL.Cipher = type [
+        kex_info = text,
+        name = text,
+        strength = text,
+        protocol = text
+    ],
+
+    Cyber_CNS.Schemas.SSL.Protocol = type [
+        name = text,
+        port = number,
+        isSecure = logical
+    ],
+
+    Cyber_CNS.Schemas.SSL.Certificate = type [
+        issuer_cn = text,
+        issued_o = text,
+        issuer_c = text,
+        issuer_ou = text,
+        issued_to = text,
+        ext_key_usage = list,
+        valid_from = text,
+        valid_till = text,
+        validity_days = number,
+        days_left = number,
+        subjectAltNames = list,
+        cert_bytes = number,
+        cert_type = text,
+        verify_cert = logical,
+        verify_host = logical,
+        public_exponent = number,
+        sn = text,
+        sha1 = text,
+        fingerprint = text,
+        ver = number,
+        alg = text,
+        cert_expired = logical
+    ],
+
+    Cyber_CNS.Schemas.SSL.Port = type [
+        port = number,
+        service = text,
+        version = text,
+        name = text,
+        path = text,
+        vulCount = number,
+        isSecure = logical
+    ],
+
+    Cyber_CNS.Schemas.SSLScanTimeSeries = type table [ 
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        ciphers = { Cyber_CNS.Schemas.SSL.Cipher },
+        protocols = { Cyber_CNS.Schemas.SSL.Protocol },
+        additional_certs = { Cyber_CNS.Schemas.SSL.Certificate },
+        sslCert = Cyber_CNS.Schemas.SSL.Certificate,
+        certs_provided = text,
+        heartbleed = logical,
+        poodle = logical,
+        heartbeat = logical,
+        freak = logical,
+        logjam = logical,
+        drown = logical,
+        beast = logical,
+        grade = text,
+        vul_stats = Cyber_CNS.Schemas.VulnerabilityStats, 
+        ports = { Cyber_CNS.Schemas.SSL.Port },
+        uniqueid = text,
+        companyRef = Cyber_CNS.Schemas.Reference.Generic,
+        agentRef = Cyber_CNS.Schemas.Reference.Generic,
+        assetRef = Cyber_CNS.Schemas.Reference.AssetRefExt2
+    ],
+
+    Cyber_CNS.Schemas.Storage = type table [ 
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        device = text,
+        mountpoint = text,
+        total = number,
+        free = number,
+        used = number,
+        encrypted = number,
+        companyRef = Cyber_CNS.Schemas.Reference.Generic,
+        agentRef = Cyber_CNS.Schemas.Reference.Generic,
+        assetRef = Cyber_CNS.Schemas.Reference.Generic
+    ],
+
+    Cyber_CNS.Schemas.Table.Settings.SortOptions = type [
+        active = text,
+        direction = text
+    ],
+
+
+    Cyber_CNS.Schemas.Table.Settings.Settings = type [
+        gFilter = list,
+        sortOptions = Cyber_CNS.Schemas.Table.Settings.SortOptions,
+        pageSize = number
+    ],
+
+    Cyber_CNS.Schemas.Table.Settings = type table [ 
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        tableId = text,
+        columnRepr = text,
+        refreshInterval = number,
+        userId = text,
+        settings = Cyber_CNS.Schemas.Table.Settings.Settings
+    ],
+
+    Cyber_CNS.Schemas.Vulnerabilities.Score = type [
+        base_score = number,
+        impact_score = number,
+        exploit_score = number,
+        cvss_score = number
+    ],
+
+    Cyber_CNS.Schemas.Vulnerabilities.Reference = type [
+        id = text,
+        name = text,
+        productRef = text,
+        productVersion = text
+    ],
+
+    Cyber_CNS.Schemas.Vulnerabilities = type table [ 
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        vul_id = text,
+        vul_title = text,
+        severity = text,
+        score = Cyber_CNS.Schemas.Vulnerabilities.Score,
+        product = text,
+        url = text,
+        chocoName = text,
+        remediation_type = text,
+        reference = { Cyber_CNS.Schemas.Vulnerabilities.Reference },
+        companyRef = Cyber_CNS.Schemas.Reference.Generic
+    ],
+
+    Cyber_CNS.Schemas.Vulnerability = type table [ 
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        vul_id = text,
+        product = list,
+        category = text,
+        title = text,
+        severity = text,
+        port = number,
+        score = Cyber_CNS.Schemas.Vulnerabilities.Score,
+        ref = text,
+        uniqueid = text,
+        companyRef = Cyber_CNS.Schemas.Reference.Generic,
+        agentRef = Cyber_CNS.Schemas.Reference.Generic,
+        assetRef = Cyber_CNS.Schemas.Reference.Generic
+    ],
+
+    Cyber_CNS.Schemas.Vulnerability.TimeSeries = type table [ 
+        _id = text,
+        c = datetime,
+        u = datetime,
+        tid = text,
+        vul_id = text,
+        product = list,
+        category = text,
+        title = text,
+        severity = text,
+        port = number,
+        score = Cyber_CNS.Schemas.Vulnerabilities.Score,
+        ref = text,
+        uniqueid = text,
+        companyRef = Cyber_CNS.Schemas.Reference.Generic,
+        agentRef = Cyber_CNS.Schemas.Reference.Generic,
+        assetRef = Cyber_CNS.Schemas.Reference.Generic
+    ],
+
+    SchemaTable = #table({"Entity", "SchemaTable"}, {
+        { "Alert", Cyber_CNS.Schemas.Alert },
+        { "Event", Cyber_CNS.Schemas.Event },
+        { "IdentityProvider", Cyber_CNS.Schemas.IdentityProvider },
+        { "User", Cyber_CNS.Schemas.User },
+        { "Role", Cyber_CNS.Schemas.Role },
+        { "APIClient", Cyber_CNS.Schemas.APIClient },
+        { "CustomGeneratedReport", Cyber_CNS.Schemas.CustomGeneratedReport },
+        { "CustomReportBuilder", Cyber_CNS.Schemas.CustomReportBuilder },
+        { "AD.Audit", Cyber_CNS.Schemas.AD.Audit },
+        { "AD.Computer", Cyber_CNS.Schemas.AD.Computer },
+        { "AD.GPO", Cyber_CNS.Schemas.AD.GPO },
+        { "AD.Group", Cyber_CNS.Schemas.AD.Group },
+        { "AD.OrgUnit", Cyber_CNS.Schemas.AD.OrgUnit },
+        { "AD.User", Cyber_CNS.Schemas.AD.User },
+        { "Agent", Cyber_CNS.Schemas.Agent },
+        { "ApplicationBaseline", Cyber_CNS.Schemas.ApplicationBaseline },
+        { "Asset", Cyber_CNS.Schemas.Asset },
+        { "Asset.BestPractice", Cyber_CNS.Schemas.Asset.BestPractice },
+        { "Asset.Credential", Cyber_CNS.Schemas.Asset.Credential },
+        { "Asset.FirewallPolicy", Cyber_CNS.Schemas.Asset.FirewallPolicy },
+        { "Asset.RunningProcess", Cyber_CNS.Schemas.Asset.RunningProcess },
+        { "Asset.Service", Cyber_CNS.Schemas.Asset.Service },
+        { "Asset.Share", Cyber_CNS.Schemas.Asset.Share },
+        { "Asset.SNMPTable", Cyber_CNS.Schemas.SNMPTable },
+        { "Asset.SystemInfo", Cyber_CNS.Schemas.Asset.SystemInfo },
+        { "Asset.TimeStat", Cyber_CNS.Schemas.Asset.TimeStat },
+        { "Asset.User", Cyber_CNS.Schemas.Asset.User },
+        { "Company", Cyber_CNS.Schemas.Company },
+        { "Company.Stat", Cyber_CNS.Schemas.Company.Stat },
+        { "Company.Stat.TimeSeries", Cyber_CNS.Schemas.Company.Stat.TimeSeries },
+        { "Compliance", Cyber_CNS.Schemas.Compliance },
+        { "Compliance.Check", Cyber_CNS.Schemas.Compliance.Check },
+        { "CustomImportSetting", Cyber_CNS.Schemas.CustomImportSetting },
+        { "Diagnostic", Cyber_CNS.Schemas.Diagnostic },
+        { "DiscoverySetting", Cyber_CNS.Schemas.DiscoverySetting },
+        { "FSMORole", Cyber_CNS.Schemas.FSMORole },
+        { "InstalledProgram", Cyber_CNS.Schemas.InstalledProgram },
+        { "Interface", Cyber_CNS.Schemas.Interface },
+        { "Job", Cyber_CNS.Schemas.Job },
+        { "Log4JInfo", Cyber_CNS.Schemas.Log4JInfo },
+        { "Notification.Rule", Cyber_CNS.Schemas.Notification.Rule },
+        { "Notification.Ticket", Cyber_CNS.Schemas.Notification.Ticket },
+        { "PasswordPolicy", Cyber_CNS.Schemas.PasswordPolicy },
+        { "PatchingStatus", Cyber_CNS.Schemas.Patching.Status },
+        { "Port", Cyber_CNS.Schemas.Port },
+        { "RegistryMisconfiguration", Cyber_CNS.Schemas.RegistryMisconfiguration },
+        { "Remediation", Cyber_CNS.Schemas.Remediation },
+        { "RemediationSuppression", Cyber_CNS.Schemas.RemediationSuppression },
+        { "Scheduler", Cyber_CNS.Schemas.Scheduler },
+        { "SecurityCompliance", Cyber_CNS.Schemas.SecurityCompliance },
+        { "SMBSharePath", Cyber_CNS.Schemas.SMBSharePath },
+        { "SNMPv2Credential", Cyber_CNS.Schemas.SNMPv2Credential },
+        { "SNMPv3Credential", Cyber_CNS.Schemas.SNMPv3Credential },
+        { "SSLScanTimeSeries", Cyber_CNS.Schemas.SSLScanTimeSeries },
+        { "Storage", Cyber_CNS.Schemas.Storage },
+        { "TableSettings", Cyber_CNS.Schemas.Table.Settings },
+        { "Vulnerabilities", Cyber_CNS.Schemas.Vulnerabilities },
+        { "Vulnerability", Cyber_CNS.Schemas.Vulnerability },
+        { "Vulnerability.TimeSeries", Cyber_CNS.Schemas.Vulnerability.TimeSeries }
+    })
+in
+    SchemaTable
