@@ -19,7 +19,7 @@
     <SuppressCellErrors>False</SuppressCellErrors>
     <MaxRows>1000</MaxRows>
     <ExtensionProject>Yes</ExtensionProject>
-    <Name>Cyber CNS</Name>
+    <Name>CyberCNS</Name>
     <ThrowOnFoldingFailure>False</ThrowOnFoldingFailure>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -38,43 +38,37 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cyber_CNS.pq">
+    <Compile Include="CyberCNS.pq">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Cyber_CNS16.png">
+    <Compile Include="CyberCNS16.png">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Cyber_CNS20.png">
+    <Compile Include="CyberCNS20.png">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Cyber_CNS24.png">
+    <Compile Include="CyberCNS24.png">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Cyber_CNS32.png">
+    <Compile Include="CyberCNS32.png">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Cyber_CNS40.png">
+    <Compile Include="CyberCNS40.png">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Cyber_CNS48.png">
+    <Compile Include="CyberCNS48.png">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Cyber_CNS64.png">
+    <Compile Include="CyberCNS64.png">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Cyber_CNS80.png">
+    <Compile Include="CyberCNS80.png">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="resources.resx">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Endpoints.pqm">
-      <SubType>Content</SubType>
-    </Compile>
-    <Compile Include="Schemas.pqm">
-      <SubType>Content</SubType>
-    </Compile>
-    <Content Include="Cyber_CNS.query.pq">
+    <Content Include="CyberCNS.query.pq">
       <SubType>Code</SubType>
     </Content>
     <Compile Include="Table.ToNavigationTable.pqm">
@@ -87,6 +81,12 @@
       <SubType>Content</SubType>
     </Compile>
     <Compile Include="Diagnostics.pqm">
+      <SubType>Content</SubType>
+    </Compile>
+    <Compile Include="Endpoints.pqm">
+      <SubType>Content</SubType>
+    </Compile>
+    <Compile Include="Schemas.pqm">
       <SubType>Content</SubType>
     </Compile>
   </ItemGroup>
